@@ -35,7 +35,28 @@ namespace Participation
                 loopAgain = Console.ReadLine().ToLower();
 
             } while (loopAgain[0] == 'y');
-            
+
+            double min = examGrades[0];
+            double max = examGrades[0];
+            double average = 0;
+
+            foreach (double grade in examGrades)
+            {
+                if (grade < min)
+                {
+                    min = grade;
+                }
+                if (grade > max)
+                {
+                    max = grade;
+                }
+
+                average = average + grade / examGrades.Count;
+            }
+             
+            Console.WriteLine($"Your minimum grade is: {min}");
+            Console.WriteLine($"Your maximum grade is: {max}");
+            Console.WriteLine($"Your average is: {average.ToString("N2")}");
         }
     }
 }
