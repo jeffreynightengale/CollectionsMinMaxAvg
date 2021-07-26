@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Participation
@@ -14,6 +15,7 @@ namespace Participation
         static void Main(string[] args)
         {
             List<double> examGrades = new List<double>();
+            Dictionary<double, int> findingMode = new Dictionary<double, int>();
 
             string loopAgain;
 
@@ -31,10 +33,20 @@ namespace Participation
 
                 examGrades.Add(grade);
 
+                if (findingMode.ContainsKey(grade) == false)
+                {
+                    findingMode.Add(grade, 1);
+                }
+                else
+                {
+                    findingMode[grade] = findingMode[grade] + 1;
+                }
+
+
                 Console.WriteLine("Would you like to enter another grade?>>");
                 loopAgain = Console.ReadLine().ToLower();
 
-            } while (loopAgain[0] == 'y');
+            } while (loopAgain.ToLower()[0] == 'y');
 
             double min = examGrades[0];
             double max = examGrades[0];
@@ -53,10 +65,33 @@ namespace Participation
 
                 average = average + grade / examGrades.Count;
             }
-             
+
+            int maxTimes = 0;
+            double mode = 0;
+
+            foreach (double key in findingMode.Keys)
+            {
+                double grade = key;
+
+                if (findingMode[grade] > maxTimes)
+                {
+                    maxTimes = findingMode[grade];
+                    mode = key;
+                }
+            }
+            foreach (double key in findingMode.Keys)
+            {
+                double grade = key;
+                if (findingMode[grade] == maxTimes)
+                {
+                    Console.WriteLine($"The grade that appears the most times is {grade} x {maxTimes}.");
+                }
+            }
+
             Console.WriteLine($"Your minimum grade is: {min}");
             Console.WriteLine($"Your maximum grade is: {max}");
             Console.WriteLine($"Your average is: {average.ToString("N2")}");
+            Console.WriteLine($"Your mode is: {mode.ToString("N2")}");
         }
     }
 }
